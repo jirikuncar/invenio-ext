@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##
 ## This file is part of Invenio.
-## Copyright (C) 2012, 2013 CERN.
+## Copyright (C) 2013 CERN.
 ##
 ## Invenio is free software; you can redistribute it and/or
 ## modify it under the terms of the GNU General Public License as
@@ -16,24 +16,17 @@
 ## You should have received a copy of the GNU General Public License
 ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
-"""
-    invenio.ext.cache
-    -----------------
 
-    This module provides initialization and configuration for `flask.ext.cache`
-    module.
+"""
+Invenio Admin mail backend.  send_email() will send emails only to
+CFG_SITE_ADMIN_EMAIL.
 """
 
-from flask.ext.cache import Cache
-cache = Cache()
+__revision__ = "$Id$"
 
-__all__ = ['cache', 'setup_app']
+from . import adminonly_class
+from flask.ext.email.backends.smtp import Mail as SMTP
 
+Mail = adminonly_class(SMTP)
 
-def setup_app(app):
-    """Setup cache extension."""
-
-    app.config.setdefault('CACHE_TYPE',
-                          app.config.get('CFG_FLASK_CACHE_TYPE', 'redis'))
-    cache.init_app(app)
-    return app
+__all__ = ['Mail']

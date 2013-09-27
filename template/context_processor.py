@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-##
 ## This file is part of Invenio.
 ## Copyright (C) 2012, 2013 CERN.
 ##
@@ -17,23 +16,35 @@
 ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 """
-    invenio.ext.cache
-    -----------------
+    invenio.ext.template.context_processor
+    --------------------------------------
 
-    This module provides initialization and configuration for `flask.ext.cache`
-    module.
+    This module provides additional decorator for extending template context
+    with new objects.
 """
 
-from flask.ext.cache import Cache
-cache = Cache()
+from flask import g
 
-__all__ = ['cache', 'setup_app']
+
+def register_template_context_processor(f):
+    g._template_context_processor.append(f)
 
 
 def setup_app(app):
-    """Setup cache extension."""
+    """Initializes template context processor extension."""
 
-    app.config.setdefault('CACHE_TYPE',
-                          app.config.get('CFG_FLASK_CACHE_TYPE', 'redis'))
-    cache.init_app(app)
+    @app.before_request
+    def reset_template_context():
+        """Resets custom template context buffer."""
+        g._template_context_processor = []
+
+    @app.context_processor
+    def inject_template_context():
+        """Updates `Jinja2` context by dynamic context processors."""
+        context = {}
+        for func in getattr(g, '_template_context_processor', []):
+            context.update(func())
+        reset_template_context()
+        return context
+
     return app

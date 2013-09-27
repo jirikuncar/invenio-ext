@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-##
 ## This file is part of Invenio.
 ## Copyright (C) 2012, 2013 CERN.
 ##
@@ -17,23 +16,32 @@
 ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 """
-    invenio.ext.cache
-    -----------------
+    invenio.ext.logger
+    --------------------------------------
 
-    This module provides initialization and configuration for `flask.ext.cache`
-    module.
+    This module adds and configures custom logger.
 """
 
-from flask.ext.cache import Cache
-cache = Cache()
-
-__all__ = ['cache', 'setup_app']
+import os
+from logging.handlers import RotatingFileHandler
+from logging import Formatter
 
 
 def setup_app(app):
-    """Setup cache extension."""
+    """Adds new Rotating File Handler to application."""
+    try:
+        os.makedirs(os.path.join(app.instance_path,
+                                 app.config.get('CFG_LOGDIR', '')))
+    except:
+        pass
 
-    app.config.setdefault('CACHE_TYPE',
-                          app.config.get('CFG_FLASK_CACHE_TYPE', 'redis'))
-    cache.init_app(app)
-    return app
+    file_log_name = os.path.join(app.instance_path,
+                                 app.config.get('CFG_LOGDIR', ''),
+                                 app.import_name + '.log')
+
+    handler = RotatingFileHandler(file_log_name)
+    handler.setFormatter(Formatter(
+        '%(asctime)s %(levelname)s: %(message)s '
+        '[in %(pathname)s:%(lineno)d]'
+    ))
+    app.logger.addHandler(handler)

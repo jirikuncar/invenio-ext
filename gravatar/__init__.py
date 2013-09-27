@@ -16,24 +16,24 @@
 ## You should have received a copy of the GNU General Public License
 ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+
 """
-    invenio.ext.cache
-    -----------------
+    invenio.ext.gravatar
+    --------------------
 
-    This module provides initialization and configuration for `flask.ext.cache`
-    module.
+    This module provides initialization and configuration for
+    `flask.ext.gravatar` module.
 """
-
-from flask.ext.cache import Cache
-cache = Cache()
-
-__all__ = ['cache', 'setup_app']
 
 
 def setup_app(app):
-    """Setup cache extension."""
-
-    app.config.setdefault('CACHE_TYPE',
-                          app.config.get('CFG_FLASK_CACHE_TYPE', 'redis'))
-    cache.init_app(app)
+    """Initialize Gravatar extension."""
+    from flask.ext.gravatar import Gravatar
+    gravatar = Gravatar(app,
+                        size=app.config.get('GRAVATAR_SIZE', 100),
+                        rating=app.config.get('GRAVATAR_RATING', 'g'),
+                        default=app.config.get('GRAVATAR_DEFAULT', 'retro'),
+                        force_default=False,
+                        force_lower=False)
+    del gravatar
     return app

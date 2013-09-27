@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##
 ## This file is part of Invenio.
-## Copyright (C) 2012, 2013 CERN.
+## Copyright (C) 2013 CERN.
 ##
 ## Invenio is free software; you can redistribute it and/or
 ## modify it under the terms of the GNU General Public License as
@@ -16,24 +16,16 @@
 ## You should have received a copy of the GNU General Public License
 ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+
 """
-    invenio.ext.cache
-    -----------------
+    invenio.ext.sslify.decorators
+    -----------------------------
 
-    This module provides initialization and configuration for `flask.ext.cache`
-    module.
+    Implements custom decorators.
 """
 
-from flask.ext.cache import Cache
-cache = Cache()
 
-__all__ = ['cache', 'setup_app']
-
-
-def setup_app(app):
-    """Setup cache extension."""
-
-    app.config.setdefault('CACHE_TYPE',
-                          app.config.get('CFG_FLASK_CACHE_TYPE', 'redis'))
-    cache.init_app(app)
-    return app
+def ssl_required(f):
+    """This forces the view function be available only through HTTPS."""
+    f._force_https = True
+    return f

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-##
+#
 ## This file is part of Invenio.
-## Copyright (C) 2012, 2013 CERN.
+## Copyright (C) 2011, 2012, 2013 CERN.
 ##
 ## Invenio is free software; you can redistribute it and/or
 ## modify it under the terms of the GNU General Public License as
@@ -17,23 +17,20 @@
 ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 """
-    invenio.ext.cache
-    -----------------
+    invenio.ext.sqlalchemy.expressions
+    ----------------------------------
 
-    This module provides initialization and configuration for `flask.ext.cache`
-    module.
+    Implements various custom ORM expressions.
 """
 
-from flask.ext.cache import Cache
-cache = Cache()
-
-__all__ = ['cache', 'setup_app']
+from sqlalchemy.ext.compiler import compiles
+from sqlalchemy.sql.expression import FunctionElement
 
 
-def setup_app(app):
-    """Setup cache extension."""
+class AsBINARY(FunctionElement):
+    name = 'AsBINARY'
 
-    app.config.setdefault('CACHE_TYPE',
-                          app.config.get('CFG_FLASK_CACHE_TYPE', 'redis'))
-    cache.init_app(app)
-    return app
+
+@compiles(AsBINARY)
+def compile(element, compiler, **kw):
+    return "BINARY %s" % compiler.process(element.clauses)
