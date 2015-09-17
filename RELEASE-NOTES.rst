@@ -2,7 +2,7 @@
  Invenio-Ext v0.1.0
 ====================
 
-Invenio-Ext v0.1.0 was released on TBD, 2015.
+Invenio-Ext v0.1.0 was released on September 17, 2015.
 
 About
 -----
