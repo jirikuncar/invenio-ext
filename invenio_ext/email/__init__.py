@@ -17,16 +17,27 @@
 # along with Invenio; if not, write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
-"""
-Invenio mail sending utilities.  send_email() is the main API function
-people should be using; just check out its docstring.
+"""Invenio mail sending utilities.
+
+send_email() is the main API function people should be using; just check out
+its docstring.
 """
 
 __revision__ = "$Id$"
 
 import os
+
 import re
+
 import sys
+
+import urllib2
+
+from invenio_base.globals import cfg
+from invenio_base.helpers import unicodifier
+from invenio_base.i18n import _
+
+from invenio_ext.template import render_template_to_string
 
 from email import Encoders
 from email.Header import Header
@@ -34,20 +45,31 @@ from email.MIMEBase import MIMEBase
 from email.MIMEImage import MIMEImage
 from email.MIMEMultipart import MIMEMultipart
 from email.Utils import formatdate
-from flask_email.message import EmailMultiAlternatives, EmailMessage
-from formatter import DumbWriter, AbstractFormatter
-from six import iteritems, StringIO
+
+from flask_email.message import EmailMessage, EmailMultiAlternatives
+
+from formatter import AbstractFormatter, DumbWriter
+
+from mimetypes import MimeTypes
+
 from time import sleep
 
-from invenio_base.globals import cfg
-from invenio_base.helpers import unicodifier
-from invenio_base.i18n import _
-from invenio_ext.template import render_template_to_string
+from six import StringIO, iteritems
 
 from .errors import EmailError
 
-default_ln = lambda ln: cfg.get('CFG_SITE_LANG') if ln is None else ln
 
+def default_ln(ln):
+    """Default ln."""
+    cfg.get('CFG_SITE_LANG') if ln is None else ln
+
+
+def getContentType(pageUrl):
+    """Get content type."""
+    page = urllib2.urlopen(pageUrl)
+    pageHeaders = page.headers
+    contentType = pageHeaders.getheader('content-type')
+    return contentType
 
 def setup_app(app):
     """
@@ -392,10 +414,7 @@ def forge_email(fromaddr, toaddr, subject, content, html_content='',
                                 from_email=fromaddr, headers=headers, **kwargs)
 
     if attachments:
-        from invenio.legacy.bibdocfile.api import _mimes, guess_format_from_url
-        #old_msg_root = msg_root
-        #msg_root = MIMEMultipart()
-        # msg_root.attach(old_msg_root)
+        _mimes = MimeTypes(strict=False)
         for attachment in attachments:
             try:
                 mime = None
@@ -405,7 +424,7 @@ def forge_email(fromaddr, toaddr, subject, content, html_content='',
                     # Automatic guessing of mimetype
                     mime = _mimes.guess_type(attachment)[0]
                 if mime is None:
-                    ext = guess_format_from_url(attachment)
+                    ext = _mimes.guess_extension(getContentType(attachment))
                     mime = _mimes.guess_type("foo" + ext)[0]
                 if not mime:
                     mime = 'application/octet-stream'
@@ -482,3 +501,4 @@ def get_mail_header(value):
     except (UnicodeEncodeError, UnicodeDecodeError):
         value = Header(value, 'utf-8')
     return value
+

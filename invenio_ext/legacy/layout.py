@@ -23,10 +23,13 @@ This module binds together Invenio's legacy modules and maps them to their
 corresponding URLs.
 """
 
-from invenio.config import CFG_ACCESS_CONTROL_LEVEL_SITE, CFG_DEVEL_SITE
 from invenio.legacy.registry import webinterfaces
+
+from invenio_base.globals import cfg
+
 from invenio_ext.legacy.handler import WebInterfaceDirectory, create_handler
 from invenio_ext.logging import register_exception
+
 from invenio_utils import apache
 
 
@@ -192,7 +195,7 @@ class WebInterfaceInvenio(WebInterfaceDirectory):
 
     def __new__(cls):
         from flask import current_app
-        if CFG_ACCESS_CONTROL_LEVEL_SITE > 0:
+        if cfg['CFG_ACCESS_CONTROL_LEVEL_SITE'] > 0:
             for key in cls._mapping.keys():
                 setattr(cls, key, WebInterfaceDisabledPages())
         else:
