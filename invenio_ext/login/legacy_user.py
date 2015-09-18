@@ -19,11 +19,15 @@
 
 """Provide support for legacy UserInfo object."""
 
-from flask import current_app, has_request_context, request, session
-from flask_login import UserMixin
-from werkzeug.datastructures import CallbackDict, CombinedMultiDict
+from invenio_accounts.models import User
 
 from invenio_ext.cache import cache
+
+from flask import current_app, has_request_context, request, session
+
+from flask_login import UserMixin
+
+from werkzeug.datastructures import CallbackDict, CombinedMultiDict
 
 __all__ = ('UserInfo', )
 
@@ -66,7 +70,6 @@ class UserInfo(CombinedMultiDict, UserMixin):
 
     def __init__(self, uid=None, force=False):
         """Retrieve information about user."""
-
         def on_update(self):
             """Change own status when the user info is modified."""
             self.modified = True
@@ -182,9 +185,8 @@ class UserInfo(CombinedMultiDict, UserMixin):
         # FIXME: acc_authorize_action should use flask request directly
         user_info = info
         user_info.update(self.req)
+        user = User.query.get(user_info['uid'])
 
-        from invenio.legacy.webuser import isUserSubmitter, isUserReferee, \
-            isUserAdmin, isUserSuperAdmin
         from invenio_access.engine import acc_authorize_action
         from invenio_access.control import acc_get_role_id, \
             acc_is_user_in_role
@@ -204,13 +206,8 @@ class UserInfo(CombinedMultiDict, UserMixin):
             user_info, 'usegroups')[0] == 0
         data['precached_usemessages'] = acc_authorize_action(
             user_info, 'usemessages')[0] == 0
-        try:
-            data['precached_viewsubmissions'] = isUserSubmitter(user_info)
-        except Exception:
-            data['precached_viewsubmissions'] = None
-        data['precached_useapprove'] = isUserReferee(user_info)
-        data['precached_useadmin'] = isUserAdmin(user_info)
-        data['precached_usesuperadmin'] = isUserSuperAdmin(user_info)
+        data['precached_useadmin'] = user.has_admin_role
+        data['precached_usesuperadmin'] = user.has_super_admin_role
         data['precached_canseehiddenmarctags'] = acc_authorize_action(
             user_info, 'runbibedit')[0] == 0
         usepaperclaim = False

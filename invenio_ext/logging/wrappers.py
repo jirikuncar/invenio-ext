@@ -18,22 +18,31 @@
 # along with Invenio; if not, write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
+"""Error handling library."""
+
 from __future__ import absolute_import, print_function
 
 import inspect
-import os
-import re
-import sys
-import time
-import traceback
-import warnings
 
-from flask import current_app
-from six import StringIO, iteritems
+import os
+
+import re
+
+import sys
+
+import time
+
+import traceback
+
+import warnings
 
 from invenio_base.globals import cfg
 
-""" Error handling library """
+from flask import current_app
+
+from flask_login import current_user as user_info
+
+from six import StringIO, iteritems
 
 
 # Regular expression to match possible password related variable that should
@@ -45,8 +54,6 @@ def get_pretty_wide_client_info(req):
     """Return (in a pretty way) all the available information about the current
     user/client"""
     if req:
-        from invenio.legacy.webuser import collect_user_info
-        user_info = collect_user_info(req)
         keys = sorted(user_info.keys())
         max_key = max([len(key) for key in keys])
         ret = ""
