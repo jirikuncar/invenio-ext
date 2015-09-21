@@ -21,11 +21,19 @@
 
 from __future__ import absolute_import
 
+import os
+
 import httpretty
-import pkg_resources
 
 from invenio_ext.arxiv import Arxiv
-from invenio.testsuite import make_test_suite, run_test_suite, InvenioTestCase
+from invenio.testsuite import InvenioTestCase
+
+current_dir = os.path.dirname(__file__)
+
+
+def load_data(filename):
+    with open(os.path.join(current_dir, 'data', filename), 'r') as f:
+        return f.read()
 
 
 class ArxivMixin(InvenioTestCase):
@@ -87,8 +95,7 @@ class TestArxivQuery(ArxivMixin):
             httpretty.GET,
             self.app.config["ARXIV_API_URL"] +
             "?verb=GetRecord&metadataPrefix=arXiv&identifier=oai:arXiv.org:1007.5048",
-            body=pkg_resources.resource_string(
-                "invenio.testsuite", "data/response_export_arxiv.xml"),
+            body=load_data("response_export_arxiv.xml"),
             status=200
         )
         httpretty.register_uri(
@@ -106,8 +113,7 @@ class TestArxivQuery(ArxivMixin):
             httpretty.GET,
             self.app.config["ARXIV_API_URL"] +
             "?verb=GetRecord&metadataPrefix=arXiv&identifier=oai:arXiv.org:dead.beef",
-            body=pkg_resources.resource_string(
-                "invenio.testsuite", "data/response_export_arxiv_zero.xml"),
+            body=load_data("response_export_arxiv_zero.xml"),
             status=200
         )
         httpretty.register_uri(
@@ -125,8 +131,7 @@ class TestArxivQuery(ArxivMixin):
             httpretty.GET,
             self.app.config["ARXIV_API_URL"] +
             "?verb=GetRecord&metadataPrefix=arXiv&identifier=oai:arXiv.org:1007.5048v1",
-            body=pkg_resources.resource_string(
-                "invenio.testsuite", "data/response_export_arxiv_versioning.xml"),
+            body=load_data("response_export_arxiv_versioning.xml"),
             status=200
         )
         httpretty.register_uri(
@@ -144,8 +149,7 @@ class TestArxivQuery(ArxivMixin):
             httpretty.GET,
             self.app.config["ARXIV_API_URL"] +
             "?verb=GetRecord&metadataPrefix=arXiv&identifier=oai:arXiv.org:dead.beef",
-            body=pkg_resources.resource_string(
-                "invenio.testsuite", "data/response_export_arxiv_malformed.xml"),
+            body=load_data("response_export_arxiv_malformed.xml"),
             status=200
         )
         httpretty.register_uri(
@@ -156,8 +160,3 @@ class TestArxivQuery(ArxivMixin):
 
         response = self.app.extensions["arxiv"].search("dead.beef")
         self.assertEqual(response.status_code, 422)
-
-TEST_SUITE = make_test_suite(TestArxiv, TestArxivQuery)
-
-if __name__ == "__main__":
-    run_test_suite(TEST_SUITE)

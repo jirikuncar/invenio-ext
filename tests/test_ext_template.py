@@ -58,9 +58,9 @@ class TemplateLoaderCase(InvenioTestCase):
     def config(self):
         cfg = super(TemplateLoaderCase, self).config
         cfg['PACKAGES'] = [
-            'invenio.testsuite.test_apps.first',
-            'invenio.modules.*',
-            'invenio.testsuite.test_apps.last',
+            'apps.first',
+            'invenio_base',
+            'apps.last',
         ]
         return cfg
 

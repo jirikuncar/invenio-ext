@@ -21,8 +21,10 @@
 Test unit for the miscutil/mailutils module.
 """
 
+from __future__ import absolute_import
+
 from invenio_ext.registry import DictModuleAutoDiscoverySubRegistry
-from invenio.testsuite import InvenioTestCase, make_test_suite, run_test_suite
+from invenio.testsuite import InvenioTestCase
 from flask_registry import ImportPathRegistry, RegistryError
 
 
@@ -31,7 +33,7 @@ class TestDictModuleAutoDiscoverySubRegistry(InvenioTestCase):
         r = self.app.extensions['registry']
 
         r['testpkgs'] = ImportPathRegistry(
-            initial=['invenio.testsuite.test_apps']
+            initial=['apps']
         )
         assert len(r['testpkgs']) == 1
 
@@ -44,8 +46,8 @@ class TestDictModuleAutoDiscoverySubRegistry(InvenioTestCase):
             )
         assert len(r['myns']) == 1
 
-        from invenio.testsuite.test_apps.last import views
-        assert r['myns']['invenio.testsuite.test_apps.last.views'] == \
+        from apps.last import views
+        assert r['myns']['apps.last.views'] == \
             views
 
         self.assertRaises(
@@ -76,9 +78,3 @@ class TestDictModuleAutoDiscoverySubRegistry(InvenioTestCase):
         assert TestObject == r['myns']['mykey']
 
         assert len(r['myns'].items()) == 2
-
-
-TEST_SUITE = make_test_suite(TestDictModuleAutoDiscoverySubRegistry)
-
-if __name__ == "__main__":
-    run_test_suite(TEST_SUITE)
