@@ -42,8 +42,6 @@
 
 from flask import redirect, request
 
-from invenio_utils.url import rewrite_to_secure_url
-
 YEAR_IN_SECS = 31536000
 
 
@@ -97,6 +95,7 @@ class SSLify(object):
 
         if not any(criteria):
             if request.url.startswith('http://'):
+                from invenio_utils.url import rewrite_to_secure_url
                 url = rewrite_to_secure_url(request.url)
 
                 code = 302

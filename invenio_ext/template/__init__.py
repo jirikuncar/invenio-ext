@@ -20,6 +20,9 @@
 """Additional extensions and filters for jinja2 module."""
 
 import re
+import os
+
+from datetime import datetime
 
 from flask import _request_ctx_stack, g, request, url_for
 
@@ -114,11 +117,6 @@ def setup_app(app):
     - invenio_pretty_date
     - invenio_url_args
     """
-    import os
-    from datetime import datetime
-    from invenio_utils.date import convert_datetext_to_dategui, \
-        convert_datestruct_to_dategui, pretty_date
-
     from . import config
     app.config.from_object(config)
 
@@ -198,6 +196,7 @@ def setup_app(app):
 
         It uses :py:func:`invenio.utils.date.convert_datetext_to_dategui`
         """
+        from invenio_utils.date import convert_datetext_to_dategui
         if isinstance(date, datetime):
             return convert_datestruct_to_dategui(
                 date.timetuple(),
@@ -213,6 +212,7 @@ def setup_app(app):
 
         It uses :py:func:`invenio.utils.date.pretty_date`
         """
+        from invenio_utils.date import pretty_date
         if isinstance(date, datetime) or isinstance(date, string_types):
             return pretty_date(
                 date, ln=getattr(g, 'ln', app.config['CFG_SITE_LANG']))

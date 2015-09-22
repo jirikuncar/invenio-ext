@@ -23,37 +23,26 @@ send_email() is the main API function people should be using; just check out
 its docstring.
 """
 
-__revision__ = "$Id$"
+from __future__ import absolute_import
 
 import os
-
 import re
-
 import sys
-
 import urllib2
-
-from invenio_base.globals import cfg
-from invenio_base.helpers import unicodifier
-from invenio_base.i18n import _
-
-from invenio_ext.template import render_template_to_string
-
 from email import Encoders
 from email.Header import Header
 from email.MIMEBase import MIMEBase
 from email.MIMEImage import MIMEImage
 from email.MIMEMultipart import MIMEMultipart
 from email.Utils import formatdate
-
-from flask_email.message import EmailMessage, EmailMultiAlternatives
-
 from formatter import AbstractFormatter, DumbWriter
-
 from mimetypes import MimeTypes
-
 from time import sleep
 
+from flask_email.message import EmailMessage, EmailMultiAlternatives
+from invenio_base.globals import cfg
+from invenio_base.helpers import unicodifier
+from invenio_base.i18n import _
 from six import StringIO, iteritems
 
 from .errors import EmailError
@@ -347,6 +336,8 @@ def forge_email(fromaddr, toaddr, subject, content, html_content='',
     @param bccaddr: [string or list-of-strings] to be used for BCC header of the email
                     (if string, then receivers are separated by ',')
     @return: forged email as an EmailMessage object"""
+    from invenio_ext.template import render_template_to_string
+
     ln = default_ln(ln)
     if html_images is None:
         html_images = {}
@@ -501,4 +492,3 @@ def get_mail_header(value):
     except (UnicodeEncodeError, UnicodeDecodeError):
         value = Header(value, 'utf-8')
     return value
-

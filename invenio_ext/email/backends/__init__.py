@@ -22,9 +22,7 @@ Invenio Admin mail backend.  send_email() will send emails only to
 CFG_SITE_ADMIN_EMAIL.
 """
 
-__revision__ = "$Id$"
-
-from invenio.config import CFG_SITE_ADMIN_EMAIL
+from flask import current_app
 
 
 def adminonly_class(Backend):
@@ -40,7 +38,7 @@ def adminonly_class(Backend):
 #%s
 #--------------------------------------------------------------
 #%s""" % (','.join(m.recipients()), m.body)
-                m.to = [CFG_SITE_ADMIN_EMAIL]
+                m.to = [current_app.config['CFG_SITE_ADMIN_EMAIL']]
                 m.cc = []
                 m.bcc = []
                 if 'Cc' in m.extra_headers:
