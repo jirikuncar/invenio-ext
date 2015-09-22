@@ -62,6 +62,7 @@ requirements = [
     'invenio-celery>=0.1.0',
     'invenio-utils>=0.1.0',
     'six>=1.7.2',
+    'passlib>=1.6.2',
 ]
 
 test_requirements = [
