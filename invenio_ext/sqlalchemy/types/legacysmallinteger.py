@@ -19,8 +19,9 @@
 
 """Platform-independent SmallInteger type."""
 
-from sqlalchemy.types import SmallInteger
 from sqlalchemy.dialects.mysql import SMALLINT
+from sqlalchemy.types import SmallInteger
+
 from . import LegacyInteger
 
 

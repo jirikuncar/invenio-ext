@@ -22,7 +22,6 @@
 import base64
 
 import sqlalchemy
-
 from sqlalchemy import types as types
 from sqlalchemy.ext.compiler import compiles
 from sqlalchemy.types import TypeDecorator

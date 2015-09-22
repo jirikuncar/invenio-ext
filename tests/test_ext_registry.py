@@ -23,9 +23,10 @@ Test unit for the miscutil/mailutils module.
 
 from __future__ import absolute_import
 
-from invenio_ext.registry import DictModuleAutoDiscoverySubRegistry
-from invenio.testsuite import InvenioTestCase
 from flask_registry import ImportPathRegistry, RegistryError
+
+from invenio_ext.registry import DictModuleAutoDiscoverySubRegistry
+from invenio_testing import InvenioTestCase
 
 
 class TestDictModuleAutoDiscoverySubRegistry(InvenioTestCase):

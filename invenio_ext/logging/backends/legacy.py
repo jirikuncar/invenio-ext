@@ -34,8 +34,9 @@ register_exception().
 from __future__ import absolute_import
 
 import logging
-from ..handlers import InvenioLegacyHandler
+
 from ..formatters import InvenioExceptionFormatter
+from ..handlers import InvenioLegacyHandler
 
 
 def setup_app(app):

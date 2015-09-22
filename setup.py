@@ -64,10 +64,15 @@ requirements = [
 ]
 
 test_requirements = [
-    'pytest>=2.7.0',
-    'pytest-cov>=1.8.0',
-    'pytest-pep8>=1.0.6',
+    'Flask-SSO>=0.2',
     'coverage>=3.7.1',
+    'invenio-accounts>=0.1.2',
+    'invenio-oauth2server>=0.1.2',
+    'invenio-testing>=0.1.0',
+    'pytest-cov>=2.1.0',
+    'pytest-pep8>=1.0.6',
+    'pytest-isort>=0.1.0',
+    'pytest>=2.8.0',
 ]
 
 

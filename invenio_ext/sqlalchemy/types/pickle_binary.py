@@ -19,7 +19,8 @@
 
 """Implement ZlibPickable column type."""
 
-from sqlalchemy.types import TypeDecorator, LargeBinary
+from sqlalchemy.types import LargeBinary, TypeDecorator
+
 from invenio_utils.serializers import ZlibPickle
 
 

@@ -24,7 +24,7 @@ from __future__ import absolute_import
 from elasticsearch import Elasticsearch
 from elasticsearch.connection import RequestsHttpConnection
 
-from invenio.celery import celery
+from invenio_celery import celery
 
 es = None
 

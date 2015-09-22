@@ -19,8 +19,8 @@
 
 """Platform-independent MediumInteger type."""
 
-from sqlalchemy.types import Integer, TypeDecorator
 from sqlalchemy.dialects.mysql import MEDIUMINT
+from sqlalchemy.types import Integer, TypeDecorator
 
 
 class LegacyMediumInteger(TypeDecorator):

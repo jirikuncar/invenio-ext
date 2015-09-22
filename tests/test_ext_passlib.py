@@ -24,7 +24,7 @@ from __future__ import absolute_import
 from binascii import hexlify, unhexlify
 
 from invenio_ext.passlib.hash import mysql_aes_decrypt, mysql_aes_encrypt
-from invenio.testsuite import InvenioTestCase, make_test_suite, run_test_suite
+from invenio_testing import InvenioTestCase
 
 
 class MySQLAESEncryptTestCase(InvenioTestCase):
@@ -111,12 +111,3 @@ class PasslibTestCase(InvenioTestCase):
                           scheme="invenio_aes_encrypted_email",
                           user=u"info@invenio-software.org", )
         assert ctx.needs_update(hashval)
-
-
-TEST_SUITE = make_test_suite(
-    MySQLAESEncryptTestCase,
-    PasslibTestCase
-)
-
-if __name__ == "__main__":
-    run_test_suite(TEST_SUITE)

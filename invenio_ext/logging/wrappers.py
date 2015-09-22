@@ -23,27 +23,18 @@
 from __future__ import absolute_import, print_function
 
 import inspect
-
 import os
-
 import re
-
 import sys
-
 import time
-
 import traceback
-
 import warnings
 
-from invenio_base.globals import cfg
-
 from flask import current_app
-
 from flask_login import current_user as user_info
-
 from six import StringIO, iteritems
 
+from invenio_base.globals import cfg
 
 # Regular expression to match possible password related variable that should
 # be disclosed in frame analysis.

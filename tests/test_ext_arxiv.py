@@ -26,7 +26,7 @@ import os
 import httpretty
 
 from invenio_ext.arxiv import Arxiv
-from invenio.testsuite import InvenioTestCase
+from invenio_testing import InvenioTestCase
 
 current_dir = os.path.dirname(__file__)
 

@@ -23,13 +23,14 @@ Test unit for the miscutil/mailutils module.
 
 import os
 import sys
-import pkg_resources
 from base64 import encodestring
-from six import iteritems, StringIO
+
+import pkg_resources
 from flask import current_app
+from six import StringIO, iteritems
 
 from invenio_ext.email import send_email
-from invenio.testsuite import make_test_suite, run_test_suite, InvenioTestCase
+from invenio_testing import InvenioTestCase
 
 
 class MailTestCase(InvenioTestCase):
@@ -305,9 +306,3 @@ To: %s""" % (CFG_SITE_ADMIN_EMAIL, )
         self.assertIn('to@example.com,too@example.com', email)
         self.assertNotIn('Bcc: to@example.com,too@example.com', email)
         self.flush_mailbox()
-
-
-TEST_SUITE = make_test_suite(TestMailUtils, TestAdminMailBackend)
-
-if __name__ == "__main__":
-    run_test_suite(TEST_SUITE)

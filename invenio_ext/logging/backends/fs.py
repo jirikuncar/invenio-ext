@@ -33,8 +33,8 @@
 
 from __future__ import absolute_import
 
-import os
 import logging
+import os
 from logging.handlers import RotatingFileHandler
 
 

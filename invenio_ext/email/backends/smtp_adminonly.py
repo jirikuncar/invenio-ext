@@ -24,8 +24,9 @@ CFG_SITE_ADMIN_EMAIL.
 
 __revision__ = "$Id$"
 
-from . import adminonly_class
 from flask_email.backends.smtp import Mail as SMTP
+
+from . import adminonly_class
 
 Mail = adminonly_class(SMTP)
 

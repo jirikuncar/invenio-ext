@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 #
-# This file is part of Flask-SSO
+# This file is part of Invenio.
 # Copyright (C) 2014, 2015 CERN.
 #
-# Flask-SSO is free software; you can redistribute it and/or
+# Invenio is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
 # published by the Free Software Foundation; either version 2 of the
 # License, or (at your option) any later version.
 #
-# Flask-SSO is distributed in the hope that it will be useful, but
+# Invenio is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 # General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with Flask-SSO; if not, write to the Free Software Foundation,
+# along with Invenio; if not, write to the Free Software Foundation,
 # Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 #
 # In applying this licence, CERN does not waive the privileges and immunities
@@ -26,16 +26,13 @@
 from __future__ import absolute_import
 
 import sys
-pyv = sys.version_info
-if pyv[0] == 2 and pyv[1] < 7:
-    import unittest2 as unittest
-else:
-    import unittest
-
+import unittest
 from contextlib import contextmanager
-from flask import request_started, request
+
+from flask import request, request_started
 from flask_login import current_user
-from invenio.testsuite import make_test_suite, run_test_suite, InvenioTestCase
+
+from invenio_testing import InvenioTestCase
 
 try:
     from invenio_ext.sso import setup_app
@@ -99,8 +96,3 @@ class TestSSO(InvenioTestCase):
         admin.settings = old_settings
         db.session.merge(admin)
         db.session.commit()
-
-TEST_SUITE = make_test_suite(TestSSO)
-
-if __name__ == "__main__":
-    run_test_suite(TEST_SUITE)

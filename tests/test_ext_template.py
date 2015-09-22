@@ -24,8 +24,7 @@ from __future__ import absolute_import
 from flask import url_for
 
 from invenio_ext.template import render_template_to_string
-from invenio.testsuite import InvenioTestCase
-from invenio.testsuite import unittest
+from invenio_testing import InvenioTestCase, unittest
 
 
 class TemplateTest(InvenioTestCase):

@@ -25,6 +25,7 @@ reflected.
 """
 
 import os
+
 from flask_collect.storage.base import BaseStorage
 
 

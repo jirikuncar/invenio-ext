@@ -27,27 +27,24 @@ Known issues:
   the file on cloud is overwrite twice...
 """
 
-import six
-import os
 import datetime
+import os
 import time
 from UserDict import UserDict
 
-# Python filesystem imports
-from fs.base import FS
-from fs.errors import (UnsupportedError, CreateFailedError,
-                       ResourceInvalidError, ResourceNotFoundError,
-                       NoPathURLError, OperationFailedError,
-                       RemoteConnectionError)
-from fs.remote import RemoteFileBuffer
-from fs.filelike import SpooledTemporaryFile
-
-# Imports specific to Google Drive service
 import httplib2
+import six
+from apiclient import errors
 from apiclient.discovery import build
 from apiclient.http import MediaInMemoryUpload
+# Python filesystem imports
+from fs.base import FS
+from fs.errors import CreateFailedError, NoPathURLError, \
+    OperationFailedError, RemoteConnectionError, ResourceInvalidError, \
+    ResourceNotFoundError, UnsupportedError
+from fs.filelike import SpooledTemporaryFile
+from fs.remote import RemoteFileBuffer
 from oauth2client.client import OAuth2Credentials
-from apiclient import errors
 
 # Items in cache are considered expired after 5 minutes.
 CACHE_TTL = 300

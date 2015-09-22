@@ -18,16 +18,16 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
 from flask import request, url_for
-
 from flask_restful import Resource
 
 from invenio_ext.restful import require_api_auth, require_header, \
     require_oauth_scopes
 from invenio_ext.sqlalchemy import db
-from invenio.testsuite import InvenioTestCase, make_test_suite, run_test_suite
+from invenio_testing import InvenioTestCase
 
 
 class DecoratorsTestCase(InvenioTestCase):
+
     def setUp(self):
         from invenio_accounts.models import User
         from invenio_oauth2server.registry import scopes
@@ -627,11 +627,3 @@ class RestfulSQLAlchemyPaginationTestCase(InvenioTestCase):
         expected['message'] = "Invalid per_page: {0}".format(-5)
         expected['type'] = "{0}".format(errors.RestfulError)
         self.assertEqual(answer_get.json, expected)
-
-
-TEST_SUITE = make_test_suite(DecoratorsTestCase, RestfulPaginationTestCase,
-                             RestfulSQLAlchemyPaginationTestCase)
-
-
-if __name__ == "__main__":
-    run_test_suite(TEST_SUITE)

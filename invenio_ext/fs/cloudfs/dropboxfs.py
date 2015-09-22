@@ -22,24 +22,20 @@
 Installation:: pip install invenio[dropbox]
 """
 
+import calendar
+import datetime
 import os
 import time
-import datetime
-import calendar
-
 from UserDict import UserDict
-from fs.base import FS, synchronize, NoDefaultMeta
-from fs.path import normpath, abspath, pathsplit, basename, dirname
-from fs.errors import (DirectoryNotEmptyError, UnsupportedError,
-                       CreateFailedError, ResourceInvalidError,
-                       ResourceNotFoundError,
-                       OperationFailedError, DestinationExistsError,
-                       RemoteConnectionError)
-from fs.remote import RemoteFileBuffer
-from fs.filelike import SpooledTemporaryFile
 
-from dropbox import rest
-from dropbox import client
+from dropbox import client, rest
+from fs.base import FS, NoDefaultMeta, synchronize
+from fs.errors import CreateFailedError, DestinationExistsError, \
+    DirectoryNotEmptyError, OperationFailedError, RemoteConnectionError, \
+    ResourceInvalidError, ResourceNotFoundError, UnsupportedError
+from fs.filelike import SpooledTemporaryFile
+from fs.path import abspath, basename, dirname, normpath, pathsplit
+from fs.remote import RemoteFileBuffer
 
 # Items in cache are considered expired after 5 minutes.
 CACHE_TTL = 300

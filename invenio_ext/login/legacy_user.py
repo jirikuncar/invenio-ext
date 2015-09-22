@@ -19,15 +19,12 @@
 
 """Provide support for legacy UserInfo object."""
 
-from invenio_accounts.models import User
-
-from invenio_ext.cache import cache
-
 from flask import current_app, has_request_context, request, session
-
 from flask_login import UserMixin
-
 from werkzeug.datastructures import CallbackDict, CombinedMultiDict
+
+from invenio_accounts.models import User
+from invenio_ext.cache import cache
 
 __all__ = ('UserInfo', )
 

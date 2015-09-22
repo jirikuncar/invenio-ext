@@ -27,20 +27,19 @@
       the file on cloud is overwrite twice...
 """
 
-from onedrive import api_v5
-import six
 import os
 import time
 from UserDict import UserDict
 
+import six
 # python filesystem imports
 from fs.base import FS
-from fs.errors import (UnsupportedError,
-                       CreateFailedError, ResourceInvalidError,
-                       ResourceNotFoundError, NoPathURLError,
-                       OperationFailedError, RemoteConnectionError)
-from fs.remote import RemoteFileBuffer
+from fs.errors import CreateFailedError, NoPathURLError, \
+    OperationFailedError, RemoteConnectionError, ResourceInvalidError, \
+    ResourceNotFoundError, UnsupportedError
 from fs.filelike import SpooledTemporaryFile
+from fs.remote import RemoteFileBuffer
+from onedrive import api_v5
 
 # Items in cache are considered expired after 5 minutes.
 CACHE_TTL = 300

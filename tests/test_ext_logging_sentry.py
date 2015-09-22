@@ -17,12 +17,12 @@
 # along with Invenio; if not, write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
-""" Tests for Sentry sensitive data sanitation. """
+"""Tests for Sentry sensitive data sanitation."""
 
 from mock import Mock
-from invenio.testsuite import make_test_suite, run_test_suite, InvenioTestCase
 
 from invenio_ext.logging.backends.sentry import InvenioSanitizeProcessor
+from invenio_testing import InvenioTestCase
 
 VARS = {
     'foo': 'bar',
@@ -32,8 +32,9 @@ VARS = {
 
 
 class InvenioSantizeProcessorTest(InvenioTestCase):
+
     def _check_vars_sanitized(self, vars, proc):
-        """ Helper to check that keys have been sanitized. """
+        """Helper to check that keys have been sanitized."""
         self.assertTrue('foo' in vars)
         self.assertEquals(vars['foo'], 'bar')
         # Raven default processor takes care of this one
@@ -77,9 +78,3 @@ class InvenioSantizeProcessorTest(InvenioTestCase):
             http['query_string'],
             'foo=bar&password=hello&access_token=%(m)s' % dict(m=proc.MASK)
         )
-
-
-TEST_SUITE = make_test_suite(InvenioSantizeProcessorTest)
-
-if __name__ == "__main__":
-    run_test_suite(TEST_SUITE)

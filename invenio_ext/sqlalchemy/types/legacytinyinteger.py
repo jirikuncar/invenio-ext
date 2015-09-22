@@ -19,8 +19,8 @@
 
 """Platform-independent TinyInteger type."""
 
-from sqlalchemy.types import Integer, TypeDecorator
 from sqlalchemy.dialects.mysql import TINYINT
+from sqlalchemy.types import Integer, TypeDecorator
 
 
 class LegacyTinyInteger(TypeDecorator):

@@ -19,8 +19,8 @@
 
 """Platform-independent BigInteger type."""
 
-from sqlalchemy.types import TypeDecorator, BigInteger
 from sqlalchemy.dialects.mysql import BIGINT
+from sqlalchemy.types import BigInteger, TypeDecorator
 
 
 class LegacyBigInteger(TypeDecorator):

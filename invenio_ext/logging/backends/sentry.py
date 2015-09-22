@@ -45,15 +45,15 @@ for further details.
 """
 
 import logging
-import pkg_resources
 from functools import partial
 
-from werkzeug.local import LocalProxy
-from flask import current_app
-from raven.handlers.logging import SentryHandler
-from raven.contrib.flask import Sentry
-from raven.processors import SanitizePasswordsProcessor
+import pkg_resources
 from celery.signals import after_setup_logger, after_setup_task_logger
+from flask import current_app
+from raven.contrib.flask import Sentry
+from raven.handlers.logging import SentryHandler
+from raven.processors import SanitizePasswordsProcessor
+from werkzeug.local import LocalProxy
 
 import invenio
 

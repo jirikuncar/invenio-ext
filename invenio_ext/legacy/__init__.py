@@ -97,41 +97,12 @@ def setup_app(app):
                                      "for legacy variable {cfg_dir}"
                                      .format(path=path, cfg_dir=cfg_dir))
 
-    class LegacyAppMiddleware(object):
-
-        def __init__(self, app):
-            self.app = app
-
-        def __call__(self, environ, start_response):
-            """Wrapper for legacy calls."""
-            with self.app.request_context(environ):
-                g.start_response = start_response
-                try:
-                    response = self.app.full_dispatch_request()
-                except Exception as e:
-                    from invenio_ext.logging import register_exception
-                    register_exception(req=request, alert_admin=True)
-                    response = self.app.handle_exception(e)
-
-                return response(environ, start_response)
-
     # Set custom request class.
     app.request_class = LegacyRequest
-    app.wsgi_app = LegacyAppMiddleware(app)
 
     @app.errorhandler(404)
     @app.errorhandler(405)
     def page_not_found(error):
-        try:
-            from invenio.legacy.wsgi import \
-                application as legacy_application
-            response = legacy_application(request.environ, g.start_response)
-            if not isinstance(response, BaseResponse):
-                response = current_app.make_response(str(response))
-            return response
-        except HTTPException as e:
-            current_app.logger.exception(request.path)
-            error = e
         if error.code == 404:
             return render_template('404.html'), 404
         return str(error), error.code
@@ -141,18 +112,6 @@ def setup_app(app):
                methods=['GET', 'POST', 'PUT'])
     def web_admin(module, action, arguments=None):
         """Add support for legacy mod publisher."""
-        from invenio.legacy.wsgi import \
-            is_mp_legacy_publisher_path, mp_legacy_publisher, \
-            application as legacy_application
-        possible_module, possible_handler = is_mp_legacy_publisher_path(
-            request.environ['PATH_INFO'])
-        if possible_module is not None:
-
-            def legacy_publisher(req):
-                return mp_legacy_publisher(req, possible_module,
-                                           possible_handler)
-            return legacy_application(request.environ, g.start_response,
-                                      handler=legacy_publisher)
         return render_template('404.html'), 404
 
     @app.endpoint('static')
@@ -168,17 +127,5 @@ def setup_app(app):
             abort(404)
         else:
             return send_from_directory(app.static_folder, filename)
-
-    # FIXME @app.before_first_request
-    def _setup_legacy_admin_menu():
-        """Add legacy menu admin to *Flask-Admin* interface."""
-        from invenio.legacy.registry import webadmin
-        for admin in app.extensions['admin']:
-            for legacy_admin_link in webadmin.keys():
-                module, action = legacy_admin_link.split('/')
-                admin.add_link(MenuLink(
-                    name=module,
-                    category='Legacy Admin',
-                    url=url_for('web_admin', module=module, action=action)))
 
     return app

@@ -31,6 +31,7 @@ Configuration variables for Flask-Cache backend.
 """
 
 from datetime import timedelta
+
 from flask import current_app
 from flask.helpers import locked_cached_property
 from werkzeug.utils import import_string
