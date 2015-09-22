@@ -74,7 +74,6 @@ def inject_utils():
       left.
     """
     from invenio_base.i18n import is_language_rtl
-    from invenio_records.api import get_record
     from invenio_utils.url import create_url, get_canonical_and_alternates_urls
 
     def invenio_url_for(endpoint, **values):
@@ -98,7 +97,6 @@ def inject_utils():
         is_language_rtl=is_language_rtl,
         canonical_url=canonical_url,
         alternate_urls=alternate_urls,
-        get_record=get_record,
         url_for=invenio_url_for,
     )
 

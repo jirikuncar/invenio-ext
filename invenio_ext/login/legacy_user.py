@@ -23,7 +23,6 @@ from flask import current_app, has_request_context, request, session
 from flask_login import UserMixin
 from werkzeug.datastructures import CallbackDict, CombinedMultiDict
 
-from invenio_accounts.models import User
 from invenio_ext.cache import cache
 
 __all__ = ('UserInfo', )
@@ -171,6 +170,11 @@ class UserInfo(CombinedMultiDict, UserMixin):
 
         FIXME: compatibility layer only !!!
         """
+        try:
+            from invenio_accounts.models import User
+        except ImportError:
+            return {}
+
         CFG_BIBAUTHORID_ENABLED = current_app.config.get(
             'CFG_BIBAUTHORID_ENABLED', False)
         # get authorization key

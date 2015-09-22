@@ -55,8 +55,6 @@ from raven.handlers.logging import SentryHandler
 from raven.processors import SanitizePasswordsProcessor
 from werkzeug.local import LocalProxy
 
-import invenio
-
 
 class InvenioSanitizeProcessor(SanitizePasswordsProcessor):
 
@@ -161,6 +159,7 @@ def setup_app(app):
         # can be removed:
         # https://github.com/getsentry/raven-python/pull/452
         from raven.utils import _VERSION_CACHE
+        import invenio
         import webassets
         import setuptools
         _VERSION_CACHE['invenio'] = invenio.__version__
