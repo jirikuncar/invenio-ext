@@ -101,8 +101,4 @@ def setup_app(app):
         (k, v) for (k, v) in iteritems(app.config)
         if k.startswith('CFG_DATABASE')))
 
-    # STEP 3: enable `from invenio import config` by setting an attribute.
-    import invenio
-    setattr(invenio, 'config', Wrapper(app.config))
-
     return app
