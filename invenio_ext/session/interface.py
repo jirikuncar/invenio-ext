@@ -29,9 +29,13 @@ from flask.sessions import SessionInterface as FlaskSessionInterface
 from itsdangerous import BadSignature, TimestampSigner
 from werkzeug.exceptions import BadRequest
 from werkzeug.utils import import_string
+from werkzeug.local import LocalProxy
 
-from invenio.config import SECRET_KEY as secret_key
 from invenio_utils.serializers import LzmaPickle as Serializer
+
+secret_key = LocalProxy(
+    lambda: current_app.config['SECRET_KEY'].encode('utf-8')
+)
 
 
 class SessionInterface(FlaskSessionInterface):

@@ -27,7 +27,9 @@ from flask import current_app, flash, g, redirect, request, session, url_for
 from flask_login import LoginManager, current_user, \
     login_user as flask_login_user, logout_user, user_logged_in
 
-from .legacy_user import UserInfo
+from invenio_base.wrappers import lazy_import
+
+UserInfo = lazy_import('invenio_ext.login.legacy_user:UserInfo')
 
 
 def login_user(user, *args, **kwargs):
