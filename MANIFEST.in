@@ -19,3 +19,6 @@ recursive-include invenio_ext *.po
 recursive-include invenio_ext *.pot
 recursive-include invenio_ext *.py
 recursive-include tests *.py
+recursive-include tests *.html
+recursive-include tests *.json
+recursive-include tests *.xml

@@ -24,6 +24,28 @@
 Changes
 =======
 
+Version 0.2.0 (released 2015-09-22)
+-----------------------------------
+
+Incompatible changes
+~~~~~~~~~~~~~~~~~~~~
+
+- Removes `get_record` from global Jinja context.
+- Removes possibility to import config as invenio package attribute.
+  Replace `from invenio import config` by using `current_app.config`.
+- Removes endpoints serving legacy webinterfaces and legacy admin
+  pages.
+- Removes bibdocfile dependency.
+
+Bug fixes
+~~~~~~~~~
+
+- Adds missing invenio-base, raven and redis dependencies.
+- Adds missing dependencies to SQLAlchemy-Utils and intbitset.
+- Adds missing invenio-celery>=0.1.0 dependency.
+- Removes dependency on legacy WebUser module.
+
 Version 0.1.0 (released 2015-09-17)
+-----------------------------------
 
 - Initial public release.

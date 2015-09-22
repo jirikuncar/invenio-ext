@@ -1,8 +1,8 @@
 ====================
- Invenio-Ext v0.1.0
+ Invenio-Ext v0.2.0
 ====================
 
-Invenio-Ext v0.1.0 was released on September 17, 2015.
+Invenio-Ext v0.2.0 was released on September 22, 2015.
 
 About
 -----
@@ -11,20 +11,33 @@ Invenio module that provides integration with Flask extensions.
 
 *This is an experimental developer preview release.*
 
-What's new
-----------
+Incompatible changes
+--------------------
 
-- Initial public release.
+- Removes `get_record` from global Jinja context.
+- Removes possibility to import config as invenio package attribute.
+  Replace `from invenio import config` by using `current_app.config`.
+- Removes endpoints serving legacy webinterfaces and legacy admin
+  pages.
+- Removes bibdocfile dependency.
+
+Bug fixes
+---------
+
+- Adds missing invenio-base, raven and redis dependencies.
+- Adds missing dependencies to SQLAlchemy-Utils and intbitset.
+- Adds missing invenio-celery>=0.1.0 dependency.
+- Removes dependency on legacy WebUser module.
 
 Installation
 ------------
 
-   $ pip install invenio-ext==0.1.0
+   $ pip install invenio-ext==0.2.0
 
 Documentation
 -------------
 
-   http://invenio-ext.readthedocs.org/en/v0.1.0
+   http://invenio-ext.readthedocs.org/en/v0.2.0
 
 Happy hacking and thanks for flying Invenio-Ext.
 
