@@ -58,11 +58,13 @@ requirements = [
     'celery>=3.1.8',
     'elasticsearch>=1.3.0',
     'fixture>=1.5',
+    'intbitset>=2.2.1',
     'invenio-base>=0.2.1',
     'invenio-celery>=0.1.0',
     'invenio-utils>=0.1.0',
     'six>=1.7.2',
     'passlib>=1.6.2',
+    'sqlalchemy-utils[encrypted]>=0.31.0',
 ]
 
 test_requirements = [
