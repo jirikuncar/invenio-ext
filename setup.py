@@ -59,6 +59,7 @@ requirements = [
     'elasticsearch>=1.3.0',
     'fixture>=1.5',
     'invenio-base>=0.2.1',
+    'invenio-celery>=0.1.0',
     'invenio-utils>=0.1.0',
     'six>=1.7.2',
 ]
