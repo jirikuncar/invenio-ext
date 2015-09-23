@@ -24,6 +24,19 @@
 Changes
 =======
 
+Version 0.2.1 (released 2015-09-23)
+-----------------------------------
+
+Incompatible changes
+~~~~~~~~~~~~~~~~~~~~
+
+- Removes previously disabled legacy handlers.
+
+Bug fixes
+~~~~~~~~~
+
+- Adds missing MySQL-python>=1.2.5 dependency.
+
 Version 0.2.0 (released 2015-09-22)
 -----------------------------------
 
