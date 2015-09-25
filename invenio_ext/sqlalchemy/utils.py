@@ -36,13 +36,13 @@ import os
 import re
 import sys
 
+from intbitset import intbitset
+
 import sqlalchemy
 from sqlalchemy.exc import OperationalError
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import class_mapper, properties
 from sqlalchemy.orm.collections import InstrumentedList, collection
-
-from intbitset import intbitset
 
 first_cap_re = re.compile('(.)([A-Z][a-z]+)')
 all_cap_re = re.compile('([a-z0-9])([A-Z])')
@@ -71,7 +71,6 @@ class TableFromCamelNameMixin(object):
 
 def get_model_type(ModelBase):
     """Return extended model type."""
-
     def getRelationships(self):
         """Return table relations."""
         retval = list()
@@ -189,9 +188,7 @@ def test_sqla_connection():
         inspector.get_table_names()
     except OperationalError as err:
         from invenio_utils.text import wrap_text_in_a_box
-        from invenio.config import CFG_DATABASE_HOST, \
-            CFG_DATABASE_PORT, CFG_DATABASE_NAME, CFG_DATABASE_USER, \
-            CFG_DATABASE_PASS
+        from invenio_base.globals import cfg
         print(" [ERROR]")
         print(wrap_text_in_a_box("""\
 DATABASE CONNECTIVITY ERROR:
@@ -211,12 +208,12 @@ instance configuration file (invenio.cfg).
 If the problem is of different nature, then please inspect
 the above error message and fix the problem before continuing.""" % {
             'errmsg': err.args[0],
-            'dbname': CFG_DATABASE_NAME,
-            'dbhost': CFG_DATABASE_HOST,
-            'dbport': CFG_DATABASE_PORT,
-            'dbuser': CFG_DATABASE_USER,
-            'dbpass': CFG_DATABASE_PASS,
-            'webhost': (CFG_DATABASE_HOST == 'localhost' and 'localhost' or
+            'dbname': cfg['CFG_DATABASE_NAME'],
+            'dbhost': cfg['CFG_DATABASE_HOST'],
+            'dbport': cfg['CFG_DATABASE_PORT'],
+            'dbuser': cfg['CFG_DATABASE_USER'],
+            'dbpass': cfg['CFG_DATABASE_PASS'],
+            'webhost': (cfg['CFG_DATABASE_HOST'] == 'localhost' and 'localhost' or
                         os.popen('hostname -f', 'r').read().strip()),
         }))
         sys.exit(1)

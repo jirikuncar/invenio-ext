@@ -22,15 +22,20 @@ Test unit for the miscutil/mailutils module.
 """
 
 import os
+
 import sys
+
 from base64 import encodestring
 
-import pkg_resources
 from flask import current_app
-from six import StringIO, iteritems
 
 from invenio_ext.email import send_email
+
 from invenio_testing import InvenioTestCase
+
+import pkg_resources
+
+from six import StringIO, iteritems
 
 
 class MailTestCase(InvenioTestCase):
@@ -82,7 +87,6 @@ To: to@example.com"""
                    content='Content')
         self.assertIn(msg_content, sys.stdout.getvalue())
         self.flush_mailbox()
-
 
     def test_email_text_template(self):
         """
@@ -245,7 +249,7 @@ class TestAdminMailBackend(MailTestCase):
         """
         Test simple email header.
         """
-        from invenio.config import CFG_SITE_ADMIN_EMAIL
+        from invenio_base.globals import cfg
         from invenio_ext.template import render_template_to_string
 
         msg_content = """Content-Type: text/plain; charset="utf-8"
@@ -253,7 +257,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Subject: Subject
 From: from@example.com
-To: %s""" % (CFG_SITE_ADMIN_EMAIL, )
+To: %s""" % (cfg['CFG_SITE_ADMIN_EMAIL'], )
 
         msg = render_template_to_string('mail_text.tpl', content='Content')
 
@@ -276,18 +280,18 @@ To: %s""" % (CFG_SITE_ADMIN_EMAIL, )
         self.assertIn(msg, email)
         self.flush_mailbox()
 
-
     def test_cc_bcc_headers(self):
         """
         Test that no Cc and Bcc headers are sent.
         """
-        from invenio.config import CFG_SITE_ADMIN_EMAIL
+        from invenio_base.globals import cfg
+
         msg_content = """Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Subject: Subject
 From: from@example.com
-To: %s""" % (CFG_SITE_ADMIN_EMAIL, )
+To: %s""" % (cfg['CFG_SITE_ADMIN_EMAIL'], )
 
         send_email('from@example.com', ['to@example.com', 'too@example.com'],
                    subject='Subject', content='Content')

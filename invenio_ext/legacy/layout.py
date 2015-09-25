@@ -48,10 +48,9 @@ class WebInterfaceDeprecatedPages(WebInterfaceDirectory):
         req.status = apache.HTTP_SERVICE_UNAVAILABLE
         msg = "<p>This functionality will be soon deprecated.</p>"
         try:
-            from invenio.config import CFG_SITE_ADMIN_EMAIL
             msg += """<p>If you would still like to use it, please ask your
                 Invenio administrator <code>%s</code> to consider enabling it.
-                </p>""" % CFG_SITE_ADMIN_EMAIL
+                </p>""" % cfg['CFG_SITE_ADMIN_EMAIL']
         except ImportError:
             pass
         try:
@@ -88,9 +87,8 @@ class WebInterfaceDisabledPages(WebInterfaceDirectory):
         msg = ("<p>This functionality is currently unavailable due to "
                "a service maintenance.</p>")
         try:
-            from invenio.config import CFG_SITE_ADMIN_EMAIL
             msg += ("<p>You can contact <code>%s</code> "
-                    "in case of questions.</p>" % CFG_SITE_ADMIN_EMAIL)
+                    "in case of questions.</p>" % cfg['CFG_SITE_ADMIN_EMAIL'])
         except ImportError:
             pass
         msg += """<p>We are going to restore the service soon.</p>
@@ -121,9 +119,8 @@ class WebInterfaceDumbPages(WebInterfaceDirectory):
         msg = "<p>This functionality is experiencing a temporary failure.</p>"
         msg += "<p>The administrator has been informed about the problem.</p>"
         try:
-            from invenio.config import CFG_SITE_ADMIN_EMAIL
             msg += ("<p>You can contact <code>%s</code> "
-                    "in case of questions.</p>" % CFG_SITE_ADMIN_EMAIL)
+                    "in case of questions.</p>" % cfg['CFG_SITE_ADMIN_EMAIL'])
         except ImportError:
             pass
         msg += """<p>We hope to restore the service soon.</p>
