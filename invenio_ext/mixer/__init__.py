@@ -204,10 +204,13 @@ def blend_all(sender, yes_i_know=False, drop=True, **kwargs):
     list(models)
 
     for table in db.metadata.sorted_tables:
-        if table.name in mixers:
+        try:
             result = mixer.blend(mixers[table.name], drop)
             db.session.add_all(result)
             db.session.commit()
+        except KeyError:
+            # There is no mixer for this table
+            pass
 
 
 def unblend_all(sender, **kwargs):
@@ -218,8 +221,11 @@ def unblend_all(sender, **kwargs):
     list(models)
 
     for table in db.metadata.sorted_tables:
-        if table.name in mixers:
+        try:
             mixer.unblend(mixers[table.name])
+        except KeyError:
+            # There is no mixer for this table
+            pass
 
 
 def setup_app(app):
