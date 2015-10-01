@@ -63,7 +63,6 @@ requirements = [
     'intbitset>=2.0.0',
     'invenio-base>=0.3.0',
     'invenio-celery>=0.1.0',
-    'invenio-collections>=0.1.2',
     'invenio-utils>=0.1.1',
     'lxml>=3.3',
     # FIXME new oauthlib release after 0.7.2 has some compatible problems with
@@ -82,7 +81,9 @@ test_requirements = [
     'coverage>=4.0.0',
     'Flask-SSO>=0.2',
     'httpretty>=0.8.10',
+    'invenio-access>=0.1.0',
     'invenio-accounts>=0.1.2',
+    'invenio-collections>=0.1.2',
     'invenio-oauth2server>=0.1.1',
     'invenio-testing>=0.1.1',
     'mock>=1.0.0',

@@ -77,7 +77,7 @@ class BowerCommand(Command):
         """
         output = {
             "name": "invenio",
-            "version": pkg_resources.get_distribution("invenio").version,
+            "version": pkg_resources.get_distribution("invenio_base").version,
             "dependencies": {},
             "resolutions": {
                 "jquery": "~1.11",  # <2 would pick 1.7.2 (thx jquery.treeview)
