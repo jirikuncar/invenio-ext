@@ -48,12 +48,21 @@ before_install:
   - "python requirements.py --extras=$REXTRAS --level=min > .travis-lowest-requirements.txt"
   - "python requirements.py --extras=$REXTRAS --level=pypi > .travis-release-requirements.txt"
   - "python requirements.py --extras=$REXTRAS --level=dev > .travis-devel-requirements.txt"
-  - "mkdir -p ${VIRTUAL_ENV}/var/invenio.base-instance/"
+  - "mkdir -p ${VIRTUAL_ENV}/var/invenio.base-instance/static/vendors"
+  - 'echo "{\"directory\": \"${VIRTUAL_ENV}/var/invenio.base-instance/static/vendors\"}" > .bowerrc'
   - "cp .travis.invenio.cfg ${VIRTUAL_ENV}/var/invenio.base-instance/invenio.cfg"
 
 install:
   - "travis_retry pip install -r .travis-$REQUIREMENTS-requirements.txt --allow-all-external"
   - "travis_retry pip install -e .[$REXTRAS]"
+  - "npm update"
+  - "npm install --silent -g bower less clean-css uglify-js requirejs"
+  # All the step below this points are solely for test purposes, don't use them
+  # to setup your invenio installation. Please do RTFM instead (INSTALL.rst).
+  - "inveniomanage bower -i bower-base.json > bower.json"
+  - "bower install --silent"
+  - "inveniomanage collect > /dev/null"
+  - "inveniomanage assets build"
 
 before_script:
   - "inveniomanage database init --yes-i-know"
