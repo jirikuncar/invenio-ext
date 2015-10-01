@@ -1,8 +1,8 @@
 ====================
- Invenio-Ext v0.2.1
+ Invenio-Ext v0.3.0
 ====================
 
-Invenio-Ext v0.2.1 was released on September 23, 2015.
+Invenio-Ext v0.3.0 was released on October 2, 2015.
 
 About
 -----
@@ -14,22 +14,27 @@ Invenio module that provides integration with Flask extensions.
 Incompatible changes
 --------------------
 
-- Removes previously disabled legacy handlers.
+- Removes record related tasks in favor of `invenio-records`.
 
 Bug fixes
 ---------
 
-- Adds missing MySQL-python>=1.2.5 dependency.
+- Adds missing dependency to invenio-collections>=0.1.2.
+- Removes references to invenio.config and replaces them with
+  invenio_base.globals.cfg.
+- Adds missing dependency to invenio-testing.
+- Replaces if statement by try...except block to check if a model has
+  a mixer associated with it.
 
 Installation
 ------------
 
-   $ pip install invenio-ext==0.2.1
+   $ pip install invenio-ext==0.3.0
 
 Documentation
 -------------
 
-   http://invenio-ext.readthedocs.org/en/v0.2.1
+   http://invenio-ext.readthedocs.org/en/v0.3.0
 
 Happy hacking and thanks for flying Invenio-Ext.
 

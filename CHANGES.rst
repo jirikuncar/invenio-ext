@@ -24,6 +24,24 @@
 Changes
 =======
 
+Version 0.3.0 (released 2015-10-02)
+-----------------------------------
+
+Incompatible changes
+~~~~~~~~~~~~~~~~~~~~
+
+- Removes record related tasks in favor of `invenio-records`.
+
+Bug fixes
+~~~~~~~~~
+
+- Adds missing dependency to invenio-collections>=0.1.2.
+- Removes references to invenio.config and replaces them with
+  invenio_base.globals.cfg.
+- Adds missing dependency to invenio-testing.
+- Replaces if statement by try...except block to check if a model has
+  a mixer associated with it.
+
 Version 0.2.1 (released 2015-09-23)
 -----------------------------------
 
