@@ -154,8 +154,9 @@ class UserInfo(CombinedMultiDict, UserMixin):
             data['family_name'] = user.family_name or ''
             data['email'] = user.email or ''
             data['note'] = user.note or ''
-            data['group'] = map(lambda x: x.group.name,
-                                getattr(user, 'groups', []))
+            data['group'] = map(
+                lambda x: x.group.name, getattr(user, 'groups', [])
+            )
             data.update(user.settings or {})
             data['settings'] = user.settings or {}
             data['guest'] = str(int(user.guest))  # '1' or '0'
@@ -188,40 +189,58 @@ class UserInfo(CombinedMultiDict, UserMixin):
         user_info.update(self.req)
         user = User.query.get(user_info['uid'])
 
-        from invenio_access.engine import acc_authorize_action
-        from invenio_access.control import acc_get_role_id, \
-            acc_is_user_in_role
-        from invenio_search.utils import \
-            get_permitted_restricted_collections
-        from invenio_deposit.cache import \
-            get_authorized_deposition_types
 
         data = {}
-        data['precached_permitted_restricted_collections'] = \
-            get_permitted_restricted_collections(user_info)
-        data['precached_allowed_deposition_types'] = \
-            get_authorized_deposition_types(user_info)
-        data['precached_useloans'] = acc_authorize_action(
-            user_info, 'useloans')[0] == 0
-        data['precached_usegroups'] = acc_authorize_action(
-            user_info, 'usegroups')[0] == 0
-        data['precached_usemessages'] = acc_authorize_action(
-            user_info, 'usemessages')[0] == 0
         data['precached_useadmin'] = user.has_admin_role
         data['precached_usesuperadmin'] = user.has_super_admin_role
-        data['precached_canseehiddenmarctags'] = acc_authorize_action(
-            user_info, 'runbibedit')[0] == 0
+
+        try:
+            from invenio_search.utils import \
+                get_permitted_restricted_collections
+            data['precached_permitted_restricted_collections'] = \
+                get_permitted_restricted_collections(user_info)
+        except Exception:
+            current_app.logger.exception(
+                'Permitted restricted collections were not loaded.'
+            )
+
+        try:
+            from invenio_deposit.cache import \
+                get_authorized_deposition_types
+            data['precached_allowed_deposition_types'] = \
+                get_authorized_deposition_types(user_info)
+        except Exception:
+            current_app.logger.exception(
+                'Allowed deposition types were not loaded.'
+            )
+
         usepaperclaim = False
         usepaperattribution = False
         viewclaimlink = False
+        try:
+            from invenio_access.engine import acc_authorize_action
+            from invenio_access.control import acc_get_role_id, \
+                acc_is_user_in_role
+            data['precached_useloans'] = acc_authorize_action(
+                user_info, 'useloans')[0] == 0
+            data['precached_usegroups'] = acc_authorize_action(
+                user_info, 'usegroups')[0] == 0
+            data['precached_usemessages'] = acc_authorize_action(
+                user_info, 'usemessages')[0] == 0
+            data['precached_canseehiddenmarctags'] = acc_authorize_action(
+                user_info, 'runbibedit')[0] == 0
 
-        if (CFG_BIBAUTHORID_ENABLED and acc_is_user_in_role(
-                user_info, acc_get_role_id("paperclaimviewers"))):
-            usepaperclaim = True
+            if (CFG_BIBAUTHORID_ENABLED and acc_is_user_in_role(
+                    user_info, acc_get_role_id("paperclaimviewers"))):
+                usepaperclaim = True
 
-        if (CFG_BIBAUTHORID_ENABLED and acc_is_user_in_role(
-                user_info, acc_get_role_id("paperattributionviewers"))):
-            usepaperattribution = True
+            if (CFG_BIBAUTHORID_ENABLED and acc_is_user_in_role(
+                    user_info, acc_get_role_id("paperattributionviewers"))):
+                usepaperattribution = True
+        except Exception:
+            current_app.logger.exception(
+                "Access control module is broken."
+            )
 
         viewlink = False
         try:
