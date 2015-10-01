@@ -22,7 +22,6 @@ import argparse
 import os
 import warnings
 
-import pkg_resources
 from flask import current_app, json
 from flask_assets import ManageAssets
 from flask_script import Command, Option
@@ -77,7 +76,7 @@ class BowerCommand(Command):
         """
         output = {
             "name": "invenio",
-            "version": pkg_resources.get_distribution("invenio").version,
+            "version": current_app.config.get('CFG_VERSION'),
             "dependencies": {},
             "resolutions": {
                 "jquery": "~1.11",  # <2 would pick 1.7.2 (thx jquery.treeview)
