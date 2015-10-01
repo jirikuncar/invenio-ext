@@ -62,7 +62,7 @@ install:
   - "inveniomanage bower -i bower-base.json > bower.json"
   - "bower install --silent"
   - "inveniomanage collect > /dev/null"
-  - "inveniomanage assets build"
+  # - "inveniomanage assets build"
 
 before_script:
   - "inveniomanage database init --yes-i-know"
