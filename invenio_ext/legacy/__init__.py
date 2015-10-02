@@ -24,17 +24,11 @@ import os
 
 import sys
 
-from flask import (abort, current_app, g, render_template, request,
-                   send_from_directory, url_for)
-
-from flask_admin.menu import MenuLink
+from flask import abort, current_app, render_template, send_from_directory
 
 from invenio_base import signals
 from invenio_base.scripts.database import create, recreate
 from invenio_base.utils import run_py_func
-
-from werkzeug.exceptions import HTTPException
-from werkzeug.wrappers import BaseResponse
 
 from .request_class import LegacyRequest
 
