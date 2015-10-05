@@ -191,8 +191,10 @@ class UserInfo(CombinedMultiDict, UserMixin):
 
 
         data = {}
-        data['precached_useadmin'] = user.has_admin_role
-        data['precached_usesuperadmin'] = user.has_super_admin_role
+        data['precached_useadmin'] = getattr(user, 'has_admin_role', False)
+        data['precached_usesuperadmin'] = getattr(
+            user, 'has_super_admin_role', False
+        )
 
         try:
             from invenio_search.utils import \
