@@ -1,8 +1,8 @@
 ====================
- Invenio-Ext v0.3.0
+ Invenio-Ext v0.3.1
 ====================
 
-Invenio-Ext v0.3.0 was released on October 2, 2015.
+Invenio-Ext v0.3.1 was released on October 5, 2015.
 
 About
 -----
@@ -11,30 +11,26 @@ Invenio module that provides integration with Flask extensions.
 
 *This is an experimental developer preview release.*
 
-Incompatible changes
---------------------
+Improved features
+-----------------
 
-- Removes record related tasks in favor of `invenio-records`.
+- Uses CFG_VERSION config variable to generate `bower.json`.
 
 Bug fixes
 ---------
 
-- Adds missing dependency to invenio-collections>=0.1.2.
-- Removes references to invenio.config and replaces them with
-  invenio_base.globals.cfg.
-- Adds missing dependency to invenio-testing.
-- Replaces if statement by try...except block to check if a model has
-  a mixer associated with it.
+- Allows legacy UserInfo object creation without Invenio-Access
+  package.
 
 Installation
 ------------
 
-   $ pip install invenio-ext==0.3.0
+   $ pip install invenio-ext==0.3.1
 
 Documentation
 -------------
 
-   http://invenio-ext.readthedocs.org/en/v0.3.0
+   http://invenio-ext.readthedocs.org/en/v0.3.1
 
 Happy hacking and thanks for flying Invenio-Ext.
 

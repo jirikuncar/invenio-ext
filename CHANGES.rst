@@ -24,6 +24,20 @@
 Changes
 =======
 
+Version 0.3.1 (released 2015-10-05)
+-----------------------------------
+
+Improved features
+~~~~~~~~~~~~~~~~~
+
+- Uses CFG_VERSION config variable to generate `bower.json`.
+
+Bug fixes
+~~~~~~~~~
+
+- Allows legacy UserInfo object creation without Invenio-Access
+  package.
+
 Version 0.3.0 (released 2015-10-02)
 -----------------------------------
 
