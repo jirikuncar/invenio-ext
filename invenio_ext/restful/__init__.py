@@ -111,8 +111,8 @@ class RESTValidator(Validator):
                     error_to_append = dict(
                         code=validation_errors['INCORRECT_TYPE']['error_code'],
                         message=(
-                            validation_errors['INCORRECT_TYPE']['error_mesg']
-                            + ": " + "'" + key + "' " + msg_error
+                            validation_errors['INCORRECT_TYPE']['error_mesg'] +
+                            ": " + "'" + key + "' " + msg_error
                         ),
                         field=key
                     )

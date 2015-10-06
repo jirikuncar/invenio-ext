@@ -36,7 +36,8 @@ try:
     # Deprecated in Flask commit 817b72d484d353800d907b3580c899314bf7f3c6
     from flask.templating import blueprint_is_module
 except ImportError:
-    blueprint_is_module = lambda blueprint: False
+    def blueprint_is_module(blueprint):
+        return False
 
 
 class OrderAwareDispatchingJinjaLoader(DispatchingJinjaLoader):

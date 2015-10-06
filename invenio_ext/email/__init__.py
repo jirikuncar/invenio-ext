@@ -60,6 +60,7 @@ def getContentType(pageUrl):
     contentType = pageHeaders.getheader('content-type')
     return contentType
 
+
 def setup_app(app):
     """
     Prepare application config from Invenio configuration.

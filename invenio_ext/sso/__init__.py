@@ -91,8 +91,8 @@ def setup_app(app):
             for group in groups:
                 if regexp.match(group):
                     groups.remove(group)
-        return dict(map(lambda x: (x, '@' in x and x + ' (Mailing list)'
-                                   or x + ' (Group)'), groups))
+        return dict(map(lambda x: (x, '@' in x and x + ' (Mailing list)' or
+                                   x + ' (Group)'), groups))
 
     def fetch_external(external):
         return '0' if external in ('CERN Registered', 'CERN Shared') else '1'

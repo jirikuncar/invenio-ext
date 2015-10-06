@@ -189,7 +189,6 @@ class UserInfo(CombinedMultiDict, UserMixin):
         user_info.update(self.req)
         user = User.query.get(user_info['uid'])
 
-
         data = {}
         data['precached_useadmin'] = getattr(user, 'has_admin_role', False)
         data['precached_usesuperadmin'] = getattr(

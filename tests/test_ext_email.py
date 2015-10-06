@@ -33,9 +33,19 @@ from invenio_ext.email import send_email
 
 from invenio_testing import InvenioTestCase
 
+from mock import patch
+
 import pkg_resources
 
 from six import StringIO, iteritems
+
+
+def _remove_temporary_emails(emails):
+    if type(emails) in (str, unicode):
+        emails = [email.strip()
+                  for email in emails.split(',') if email.strip()]
+        return ','.join(emails)
+    return emails
 
 
 class MailTestCase(InvenioTestCase):
@@ -47,8 +57,14 @@ class MailTestCase(InvenioTestCase):
         current_app.config['EMAIL_BACKEND'] = self.EMAIL_BACKEND
         self.__stdout = sys.stdout
         self.stream = sys.stdout = StringIO()
+        self.patcher = patch(
+            'invenio_ext.email.remove_temporary_emails',
+            side_effect=_remove_temporary_emails
+        )
+        self.patcher.start()
 
     def tearDown(self):
+        self.patcher.stop()
         del self.stream
         sys.stdout = self.__stdout
         del self.__stdout

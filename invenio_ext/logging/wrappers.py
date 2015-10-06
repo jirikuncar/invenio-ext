@@ -85,8 +85,8 @@ def get_traceback():
                 'file': trace_tuple[0],
                 'line': trace_tuple[1],
                 'function': trace_tuple[2],
-                'text': trace_tuple[3] is not None
-                and str(trace_tuple[3]) or ""
+                'text': trace_tuple[3] is not None and
+                str(trace_tuple[3]) or ""
             }
     return traceback_pretty
 

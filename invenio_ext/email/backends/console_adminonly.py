@@ -17,12 +17,10 @@
 # along with Invenio; if not, write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
-"""
-Invenio Admin mail backend.  send_email() will send emails only to
-CFG_SITE_ADMIN_EMAIL.
-"""
+"""Invenio Admin mail backend.
 
-__revision__ = "$Id$"
+send_email() will send emails only to CFG_SITE_ADMIN_EMAIL.
+"""
 
 from flask_email.backends.console import Mail as Console
 
@@ -30,4 +28,4 @@ from . import adminonly_class
 
 Mail = adminonly_class(Console)
 
-__all__ = ['Mail']
+__all__ = ('Mail', )

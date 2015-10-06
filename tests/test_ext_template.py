@@ -73,6 +73,8 @@ class TemplateArgsTest(InvenioTestCase):
 
     """Test ``template_args`` decorator."""
 
+    render_templates = False
+
     @classmethod
     def setup_app(cls, app):
         """Custom setup function."""

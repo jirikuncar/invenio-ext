@@ -43,11 +43,7 @@ class ArxivMixin(InvenioTestCase):
     @property
     def config(self):
         """Remove Arxiv from extensions to get full control of the test."""
-        from invenio_base.config import EXTENSIONS
         cfg = super(ArxivMixin, self).config
-        cfg["EXTENSIONS"] = filter(
-            lambda k: not k.startswith("invenio_ext.arxiv"),
-            EXTENSIONS)
         cfg["ARXIV_API_URL"] = "http://export.example.org/oai2"
         cfg["CACHE_TYPE"] = "simple"
         return cfg

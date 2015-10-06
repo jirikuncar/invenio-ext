@@ -161,7 +161,11 @@ class Arxiv(object):
 
         # query the database
         result = get_unique_record_json(
-            "\"{0}{1}\"".format(self.app.config.get("ARXIV_SEARCH_PREFIX", ""), arxiv))
+            "\"{0}{1}\"".format(
+                self.app.config.get(
+                    "ARXIV_SEARCH_PREFIX",
+                    ""),
+                arxiv))
         if result["status"] == "notfound":
             # query arxiv
             result = self.get_json(arxiv)
